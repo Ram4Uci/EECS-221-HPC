@@ -11,9 +11,10 @@
 #include<omp.h>
 #include "sort.hh"
 #define keytype_size sizeof(keytype)
-#define level 64
 
+int level=64;
 int size;
+
 void mergesort(keytype *a,keytype *b,int left,int right);
 void parallelmerge(keytype *a,keytype *b,int l1,int r1,int l2,int r2,int l3);
 void merge(keytype *a,keytype *b,int l1,int r1,int l2,int r2);
@@ -29,7 +30,15 @@ void parallelSort (int N, keytype* A)
   size = N;
   #pragma omp parallel 
   {
-    #pragma omp single
+   
+    #pragma omp master
+    {
+      int num = omp_get_num_threads();
+      level = num;
+      printf(" Number of threads = %d \n Level = %d\n",num,level);
+    }
+
+    #pragma omp single nowait
     {
       mergesort(A,b,0,N-1);
     }
@@ -89,15 +98,7 @@ void mergesort(keytype *a,keytype *b,int left,int right)
 
   if(num <=(size/level))
     {
-
-      keytype *c;
-      c= newKeys(num);
-      memcpy(c,a+left,num*keytype_size);
-
-      qsort(c,num,keytype_size,compare);
-      
-      memcpy(a+left,c,num*keytype_size);
-
+      qsort(a+left,num,keytype_size,compare);
       return;
     }
   else
