@@ -1,4 +1,4 @@
-Script began: Mon May 1 16:39:18 PDT 2017
+Script began: Mon May 1 13:03:53 PDT 2017
 Node: compute-7-4.local
 Current directory: /data/users/rrajabas/EECS-221-HPC/hw1
 
@@ -7,11 +7,11 @@ Current directory: /data/users/rrajabas/EECS-221-HPC/hw1
 
 N == 10000000
 
-Sequential: 2.28635 seconds ==> 4.37378 million keys per second
+Sequential: 2.20179 seconds ==> 4.54176 million keys per second
 	(Array is sorted.)
  Number of threads = 64 
  Level = 64
-Parallel sort: 0.301079 seconds ==> 33.2139 million keys per second
+Parallel sort: 0.319041 seconds ==> 31.3439 million keys per second
 	(Array is sorted.)
 	(Arrays are equal.)
 
@@ -19,11 +19,11 @@ Parallel sort: 0.301079 seconds ==> 33.2139 million keys per second
 
 N == 10000000
 
-Sequential: 2.24614 seconds ==> 4.45208 million keys per second
+Sequential: 2.21142 seconds ==> 4.52199 million keys per second
 	(Array is sorted.)
  Number of threads = 64 
  Level = 64
-Parallel sort: 0.326837 seconds ==> 30.5963 million keys per second
+Parallel sort: 0.311945 seconds ==> 32.0569 million keys per second
 	(Array is sorted.)
 	(Arrays are equal.)
 
@@ -31,11 +31,11 @@ Parallel sort: 0.326837 seconds ==> 30.5963 million keys per second
 
 N == 10000000
 
-Sequential: 2.21088 seconds ==> 4.52308 million keys per second
+Sequential: 2.2261 seconds ==> 4.49217 million keys per second
 	(Array is sorted.)
  Number of threads = 64 
  Level = 64
-Parallel sort: 0.3279 seconds ==> 30.4971 million keys per second
+Parallel sort: 0.344795 seconds ==> 29.0027 million keys per second
 	(Array is sorted.)
 	(Arrays are equal.)
 
@@ -43,11 +43,11 @@ Parallel sort: 0.3279 seconds ==> 30.4971 million keys per second
 
 N == 10000000
 
-Sequential: 2.25455 seconds ==> 4.43547 million keys per second
+Sequential: 2.24656 seconds ==> 4.45124 million keys per second
 	(Array is sorted.)
  Number of threads = 64 
  Level = 64
-Parallel sort: 0.307704 seconds ==> 32.4988 million keys per second
+Parallel sort: 0.319831 seconds ==> 31.2665 million keys per second
 	(Array is sorted.)
 	(Arrays are equal.)
 
@@ -55,11 +55,11 @@ Parallel sort: 0.307704 seconds ==> 32.4988 million keys per second
 
 N == 10000000
 
-Sequential: 2.23556 seconds ==> 4.47315 million keys per second
+Sequential: 2.22324 seconds ==> 4.49794 million keys per second
 	(Array is sorted.)
  Number of threads = 64 
  Level = 64
-Parallel sort: 0.303256 seconds ==> 32.9754 million keys per second
+Parallel sort: 0.336665 seconds ==> 29.7031 million keys per second
 	(Array is sorted.)
 	(Arrays are equal.)
 
