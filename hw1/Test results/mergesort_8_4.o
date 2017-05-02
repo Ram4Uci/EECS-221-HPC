@@ -1,0 +1,67 @@
+Script began: Mon May 1 14:18:53 PDT 2017
+Node: compute-13-6.local
+Current directory: /data/users/rrajabas/EECS-221-HPC/hw1
+
+=== Running 5 trials of Mergesort on 10 million elements ... ===
+*** Trial 1 ***
+
+N == 10000000
+
+Sequential: 2.06958 seconds ==> 4.83189 million keys per second
+	(Array is sorted.)
+ Number of threads = 8 
+ Level = 8
+Parallel sort: 0.598441 seconds ==> 16.7101 million keys per second
+	(Array is sorted.)
+	(Arrays are equal.)
+
+*** Trial 2 ***
+
+N == 10000000
+
+Sequential: 2.07045 seconds ==> 4.82986 million keys per second
+	(Array is sorted.)
+ Number of threads = 8 
+ Level = 8
+Parallel sort: 0.606547 seconds ==> 16.4868 million keys per second
+	(Array is sorted.)
+	(Arrays are equal.)
+
+*** Trial 3 ***
+
+N == 10000000
+
+Sequential: 2.0752 seconds ==> 4.81881 million keys per second
+	(Array is sorted.)
+ Number of threads = 8 
+ Level = 8
+Parallel sort: 0.579168 seconds ==> 17.2661 million keys per second
+	(Array is sorted.)
+	(Arrays are equal.)
+
+*** Trial 4 ***
+
+N == 10000000
+
+Sequential: 2.0707 seconds ==> 4.82927 million keys per second
+	(Array is sorted.)
+ Number of threads = 8 
+ Level = 8
+Parallel sort: 0.593375 seconds ==> 16.8527 million keys per second
+	(Array is sorted.)
+	(Arrays are equal.)
+
+*** Trial 5 ***
+
+N == 10000000
+
+Sequential: 2.07005 seconds ==> 4.83081 million keys per second
+	(Array is sorted.)
+ Number of threads = 8 
+ Level = 8
+Parallel sort: 0.583517 seconds ==> 17.1375 million keys per second
+	(Array is sorted.)
+	(Arrays are equal.)
+
+
+=== Done! ===
