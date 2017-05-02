@@ -1,11 +1,11 @@
 ******************** Readme ****************
-Homework 1 
+************* HOMEWORK 1 *************
 
-Team :- Ramkumar Rajabaskaran 85241493
-     :- Vidhyasagar Thirumaraiselvan
+I. To create a program for Parallel-Mergesort with Parallel Merge using OpenMP.
 
-We ran the program both on the Intel8 and Amd64 cores.
+I had access to an Intel 8 core machine and an AMD 64 core machine.
 
-The Average speedup in the case of AMD machine was 7 for 64 cores.
-For the Intel machine, the average speedup was 3.5 for 8 cores. 
+The runtimes(s) on both the machines and the Speedup are: -
 
+Average Speedup for the Intel-8 with 8 threads: - 3.5
+Average Speedup for the AMD-64 with 64 threads: - 7 
