@@ -1,14 +1,14 @@
-#include<iostream.h>
+#include <iostream>
 #include<string.h>
-#include<algorithm.h>
-#include<fstream.h>
-#inclde<limits.h>
+#include<algorithm>
+#include<fstream>
+#include<limits.h>
 #include<stdlib.h>
-#include<vector.h>
+#include<vector>
 
 using namespace std;
 
-typedef vector<size_t> bad_match_table
+typedef vector<size_t> bad_match_table;
 
 const bad_match_table create_table(const unsigned char* str, size_t str_len)
 {
@@ -22,38 +22,29 @@ const bad_match_table create_table(const unsigned char* str, size_t str_len)
 	}
 	
 	return tab;
-
-int* boyer_moore_horsepool_sequential(char* text, size_t txt_len, const char* str, size_t str_len, bad_match_table tab1)
+}
+int boyer_moore_horsepool_sequential(char* text, size_t txt_len, const char* str, size_t str_len, bad_match_table tab1)
 {
 	size_t text_pos =0;
 	unsigned char occ_char;	
-	int *count={-1} , comp=0,tid=0;
-	
-	while(text_pos<text_len)
+	int count=0;
+	while(text_pos<=(txt_len-str_len))
 	{
-		occ_char = text[text_pos + str_len -1-comp];
+		occ_char = text[text_pos + str_len -1];
 		
-		while(occ_char == str[str_len-1-comp])
+		if(occ_char == str[str_len-1] && (memcmp(str, text+text_pos, str_len - 1) == 0) )
 		{
-			++comp;
-			if(comp == strlen)
-			{
-				comp = 0;
-				*count = text_pos;
-				cout<<*count<<endl;
-				count++;
-				break;
-			}
-			occ_char = text[text_pos + str_len -1-comp];
+		  ++count;
 		}
-		text_pos+=occ1[occ_char];
+
+		text_pos+=tab1[occ_char];
 	}
 	return count;
 }
 
 int main(int argc, char *argv[])
 {
-	int *count;
+	int count;
 	bad_match_table tab1;
 	const char* str;
 	const char* filename;
@@ -90,20 +81,20 @@ cout<<"Length of text to be scanned is "<<text_len<<" and length of pattern is "
 
 //Calling function to generate the occurrence table . We have to reinterpret_cast in
 // order to match the arguments of func. call and func. declaration.
-occ1 = bad_match_table(reinterpret_cast <const unsigned char*> (str),str_len);
+tab1 = create_table(reinterpret_cast <const unsigned char*> (str),str_len);
 
-count = boyer_moore_horsepool_sequential(text,text_len,str,str_len,occ1);
+count = boyer_moore_horsepool_sequential(text,text_len,str,str_len,tab1);
 
-if(count[0] == -1)
+if(count == 0)
 cout<< " No match found and error in handling the text" <<endl;
 else
 {	
-	int match = sizeof(count)/sizeof(int);
-	cout<<"Total number of occurances of string in text = "<<match<<endl;
-	for(int i=0;i<match;i++)
+  //int match = sizeof(count)/sizeof(int);
+	cout<<"Total number of occurances of string in text = "<<count<<endl;
+	/*	for(int i=0;i<match;i++)
 	{
-		cout<<count[i]<<","
-	}
+	  cout<<count[i]<<",";
+	  }*/
 	cout<<endl;
 }
 return 0;
