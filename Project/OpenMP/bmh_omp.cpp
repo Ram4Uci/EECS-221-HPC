@@ -24,29 +24,77 @@ const bad_match_table create_table(const unsigned char* str, size_t str_len)
 	
 	return tab;
 }
-int boyer_moore_horsepool_sequential(char* text, size_t txt_len, const char* str, size_t str_len, bad_match_table tab1)
+int boyer_moore_horsepool_sequential(char* text, size_t txt_len, const char* str, size_t str_len, bad_match_table tab1,int num)
 {
 	size_t text_pos =0;
 	unsigned char occ_char;	
-	int count=0;
-	while(text_pos<=(txt_len-str_len))
+	int count=0,temp,tid;
+	int offset = str_len-1;
+	int blocksize = txt_len / num;
+	int remainder = txt_len % num;
+	int thresh = blocksize + offset;
+	
+	cout<<"\n blocksize ="<<blocksize<<"\n";	
+	#pragma omp parallel num_threads(num) shared(text,count,txt_len,str,str_len,remainder,offset,blocksize,tab1) private(temp,text_pos,tid,occ_char,thresh)
 	{
-		occ_char = text[text_pos + str_len -1];
-		
-		if(occ_char == str[str_len-1] && (memcmp(str, text+text_pos, str_len - 1) == 0) )
-		{
-		  ++count;
-		  //  cout<<text_pos<<"\n";
-		}
+		temp = 0;
+		text_pos =0;
+		tid = omp_get_thread_num();
 
-		text_pos+=tab1[occ_char];
+		if(tid ==num-1)
+		{
+			text_pos = blocksize*tid;
+			thresh = txt_len;
+			cout<<"\ntid_last="<<tid<<"\n"<<"begin ="<<text_pos<<": end = "<<thresh<<"\n";
+			
+					
+				while(text_pos<=thresh)
+				{
+				occ_char = text[text_pos + str_len -1];
+
+				
+				if(occ_char == str[str_len-1] && (memcmp(str, text+text_pos, str_len - 1) == 0) )
+				{
+				    ++temp;
+				//    cout<<text_pos<<"\n";
+				}
+
+				text_pos+=tab1[occ_char];
+				}
+				#pragma omp atomic 
+				count +=temp;
+			
+		}
+		else
+		{
+			text_pos=blocksize*tid;
+			thresh = blocksize*(tid+1)+offset;
+			cout<<"tid ="<<tid<<"\n"<<"begin ="<<text_pos<<": end = "<<thresh<<"\n";
+			
+				while(text_pos<=thresh)
+				{
+				occ_char = text[text_pos + str_len -1];
+				
+				if(occ_char == str[str_len-1] && (memcmp(str, text+text_pos, str_len - 1) == 0) )
+				{
+					++temp;
+				//	cout<<text_pos<<"\n";
+				}
+
+				text_pos+=tab1[occ_char];
+				}
+					#pragma omp atomic
+				  count+=temp;
+
+			
+		}
 	}
 	return count;
 }
 
 int main(int argc, char *argv[])
 {
-	int count;
+	int count,num=8;
 	bad_match_table tab1;
 	const char* str;
 	const char* filename;
@@ -57,6 +105,7 @@ int main(int argc, char *argv[])
 	
 	filename = argv[1];
 	str = argv[2];
+	num =atoi(argv[3]);
 	cout<<"Finding string '"<<str<<"' in text file "<<filename<<endl;
 
  ifstream in;
@@ -85,7 +134,7 @@ cout<<"Length of text to be scanned is "<<text_len<<" and length of pattern is "
 // order to match the arguments of func. call and func. declaration.
 tab1 = create_table(reinterpret_cast <const unsigned char*> (str),str_len);
 double start = omp_get_wtime();
-count = boyer_moore_horsepool_sequential(text,text_len,str,str_len,tab1);
+count = boyer_moore_horsepool_sequential(text,text_len,str,str_len,tab1,num);
 cout<<"\nTimeTaken = "<<omp_get_wtime()-start<<"\n";
 if(count == 0)
 cout<< " No match found and error in handling the text" <<endl;
