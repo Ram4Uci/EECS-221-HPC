@@ -45,7 +45,7 @@ int boyer_moore_horsepool_sequential(char* text, size_t txt_len, const char* str
 		{
 			text_pos = blocksize*tid;
 			thresh = txt_len;
-			cout<<"\ntid_last="<<tid<<"\n"<<"begin ="<<text_pos<<": end = "<<thresh<<"\n";
+			//cout<<"\ntid_last="<<tid<<"\n"<<"begin ="<<text_pos<<": end = "<<thresh<<"\n";
 			
 					
 				while(text_pos<=thresh)
@@ -69,7 +69,7 @@ int boyer_moore_horsepool_sequential(char* text, size_t txt_len, const char* str
 		{
 			text_pos=blocksize*tid;
 			thresh = blocksize*(tid+1)+offset;
-			cout<<"tid ="<<tid<<"\n"<<"begin ="<<text_pos<<": end = "<<thresh<<"\n";
+			//cout<<"tid ="<<tid<<"\n"<<"begin ="<<text_pos<<": end = "<<thresh<<"\n";
 			
 				while(text_pos<=thresh)
 				{
