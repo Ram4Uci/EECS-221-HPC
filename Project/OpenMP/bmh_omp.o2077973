@@ -1,0 +1,52 @@
+Script began: Sat May 20 16:04:42 PDT 2017
+Node: compute-13-3.local
+Current directory: /data/users/rrajabas/EECS-221-HPC/Project/OpenMP
+
+=== Running 5 trials of Mergesort on 10 million elements ... ===
+*** Trial 1 ***
+Finding string 'catgtag' in text file ../gene.txt
+Length of text to be scanned is 91626672 and length of pattern is 7
+
+ blocksize =11453334
+
+TimeTaken = 0.102375
+Total number of occurances of string in text = 1586
+
+*** Trial 2 ***
+Finding string 'catgtag' in text file ../gene.txt
+Length of text to be scanned is 91626672 and length of pattern is 7
+
+ blocksize =11453334
+
+TimeTaken = 0.101606
+Total number of occurances of string in text = 1586
+
+*** Trial 3 ***
+Finding string 'catgtag' in text file ../gene.txt
+Length of text to be scanned is 91626672 and length of pattern is 7
+
+ blocksize =11453334
+
+TimeTaken = 0.0996162
+Total number of occurances of string in text = 1586
+
+*** Trial 4 ***
+Finding string 'catgtag' in text file ../gene.txt
+Length of text to be scanned is 91626672 and length of pattern is 7
+
+ blocksize =11453334
+
+TimeTaken = 0.0977438
+Total number of occurances of string in text = 1586
+
+*** Trial 5 ***
+Finding string 'catgtag' in text file ../gene.txt
+Length of text to be scanned is 91626672 and length of pattern is 7
+
+ blocksize =11453334
+
+TimeTaken = 0.098817
+Total number of occurances of string in text = 1586
+
+
+=== Done! ===

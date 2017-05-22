@@ -1,0 +1,126 @@
+**** Size = 500 ****
+**** Master Slave Program ****
+
+Time Taken by the Master-Slave Program is 0.082298l 
+ For Image of 500 X 500 for 16 Nodes
+**** Joe's Program ****
+
+Time Taken by Joe's Program is 0.085891l
+ For Image of 500 X 500 for 16 Nodes
+**** Susie's Program ****
+
+Time Taken by Susie's Program is 0.067541l 
+ For Image of 500 X 500 for 16 Nodes
+**** Serial Program ****
+
+Time Taken by the Serial Program is 0.242698l 
+ For Image of 500 X 500 
+**** END ****
+**** Size = 1000 ****
+**** Master Slave Program ****
+
+Time Taken by the Master-Slave Program is 0.170883l 
+ For Image of 1000 X 1000 for 16 Nodes
+**** Joe's Program ****
+
+Time Taken by Joe's Program is 0.257591l
+ For Image of 1000 X 1000 for 16 Nodes
+**** Susie's Program ****
+
+Time Taken by Susie's Program is 0.234840l 
+ For Image of 1000 X 1000 for 16 Nodes
+**** Serial Program ****
+
+Time Taken by the Serial Program is 0.826781l 
+ For Image of 1000 X 1000 
+**** END ****
+**** Size = 2000 ****
+**** Master Slave Program ****
+
+Time Taken by the Master-Slave Program is 0.590678l 
+ For Image of 2000 X 2000 for 16 Nodes
+**** Joe's Program ****
+
+Time Taken by Joe's Program is 0.947369l
+ For Image of 2000 X 2000 for 16 Nodes
+**** Susie's Program ****
+
+Time Taken by Susie's Program is 0.763708l 
+ For Image of 2000 X 2000 for 16 Nodes
+**** Serial Program ****
+
+Time Taken by the Serial Program is 3.038227l 
+ For Image of 2000 X 2000 
+**** END ****
+**** Size = 5000 ****
+**** Master Slave Program ****
+
+Time Taken by the Master-Slave Program is 3.405930l 
+ For Image of 5000 X 5000 for 16 Nodes
+**** Joe's Program ****
+
+Time Taken by Joe's Program is 5.649052l
+ For Image of 5000 X 5000 for 16 Nodes
+**** Susie's Program ****
+
+Time Taken by Susie's Program is 4.225561l 
+ For Image of 5000 X 5000 for 16 Nodes
+**** Serial Program ****
+
+Time Taken by the Serial Program is 18.226044l 
+ For Image of 5000 X 5000 
+**** END ****
+**** Size = 10000 ****
+**** Master Slave Program ****
+
+Time Taken by the Master-Slave Program is 13.079337l 
+ For Image of 10000 X 10000 for 16 Nodes
+**** Joe's Program ****
+
+Time Taken by Joe's Program is 22.246686l
+ For Image of 10000 X 10000 for 16 Nodes
+**** Susie's Program ****
+
+Time Taken by Susie's Program is 16.170400l 
+ For Image of 10000 X 10000 for 16 Nodes
+**** Serial Program ****
+
+Time Taken by the Serial Program is 72.108340l 
+ For Image of 10000 X 10000 
+**** END ****
+**** Size = 20000 ****
+**** Master Slave Program ****
+
+Time Taken by the Master-Slave Program is 55.003961l 
+ For Image of 20000 X 20000 for 16 Nodes
+**** Joe's Program ****
+
+Time Taken by Joe's Program is 87.995579l
+ For Image of 20000 X 20000 for 16 Nodes
+**** Susie's Program ****
+
+Time Taken by Susie's Program is 63.662171l 
+ For Image of 20000 X 20000 for 16 Nodes
+**** Serial Program ****
+
+Time Taken by the Serial Program is 287.568133l 
+ For Image of 20000 X 20000 
+**** END ****
+**** Size = 30000 ****
+**** Master Slave Program ****
+
+Time Taken by the Master-Slave Program is 122.046187l 
+ For Image of 30000 X 30000 for 16 Nodes
+**** Joe's Program ****
+
+Time Taken by Joe's Program is 197.449687l
+ For Image of 30000 X 30000 for 16 Nodes
+**** Susie's Program ****
+
+Time Taken by Susie's Program is 141.977981l 
+ For Image of 30000 X 30000 for 16 Nodes
+**** Serial Program ****
+
+Time Taken by the Serial Program is 645.943393l 
+ For Image of 30000 X 30000 
+**** END ****

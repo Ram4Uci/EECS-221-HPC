@@ -1,0 +1,99 @@
+AMD
+**** Size = 500 ****
+**** Master Slave Program ****
+
+Time Taken by the Master-Slave Program is 0.055312l 
+ For Image of 500 X 500 for 32 Nodes
+**** Joe's Program ****
+
+Time Taken by Joe's Program is 0.076947l
+ For Image of 500 X 500 for 32 Nodes
+**** Susie's Program ****
+
+Time Taken by Susie's Program is 0.079795l 
+ For Image of 500 X 500 for 32 Nodes
+**** END ****
+**** Size = 1000 ****
+**** Master Slave Program ****
+
+Time Taken by the Master-Slave Program is 0.178048l 
+ For Image of 1000 X 1000 for 32 Nodes
+**** Joe's Program ****
+
+Time Taken by Joe's Program is 0.218691l
+ For Image of 1000 X 1000 for 32 Nodes
+**** Susie's Program ****
+
+Time Taken by Susie's Program is 0.219665l 
+ For Image of 1000 X 1000 for 32 Nodes
+**** END ****
+**** Size = 2000 ****
+**** Master Slave Program ****
+
+Time Taken by the Master-Slave Program is 0.629230l 
+ For Image of 2000 X 2000 for 32 Nodes
+**** Joe's Program ****
+
+Time Taken by Joe's Program is 0.789108l
+ For Image of 2000 X 2000 for 32 Nodes
+**** Susie's Program ****
+
+Time Taken by Susie's Program is 0.690426l 
+ For Image of 2000 X 2000 for 32 Nodes
+**** END ****
+**** Size = 5000 ****
+**** Master Slave Program ****
+
+Time Taken by the Master-Slave Program is 3.586106l 
+ For Image of 5000 X 5000 for 32 Nodes
+**** Joe's Program ****
+
+Time Taken by Joe's Program is 4.581657l
+ For Image of 5000 X 5000 for 32 Nodes
+**** Susie's Program ****
+
+Time Taken by Susie's Program is 3.678780l 
+ For Image of 5000 X 5000 for 32 Nodes
+**** END ****
+**** Size = 10000 ****
+**** Master Slave Program ****
+
+Time Taken by the Master-Slave Program is 13.924907l 
+ For Image of 10000 X 10000 for 32 Nodes
+**** Joe's Program ****
+
+Time Taken by Joe's Program is 17.898392l
+ For Image of 10000 X 10000 for 32 Nodes
+**** Susie's Program ****
+
+Time Taken by Susie's Program is 14.078183l 
+ For Image of 10000 X 10000 for 32 Nodes
+**** END ****
+**** Size = 20000 ****
+**** Master Slave Program ****
+
+Time Taken by the Master-Slave Program is 53.639330l 
+ For Image of 20000 X 20000 for 32 Nodes
+**** Joe's Program ****
+
+Time Taken by Joe's Program is 70.266609l
+ For Image of 20000 X 20000 for 32 Nodes
+**** Susie's Program ****
+
+Time Taken by Susie's Program is 55.668138l 
+ For Image of 20000 X 20000 for 32 Nodes
+**** END ****
+**** Size = 30000 ****
+**** Master Slave Program ****
+
+Time Taken by the Master-Slave Program is 121.256212l 
+ For Image of 30000 X 30000 for 32 Nodes
+**** Joe's Program ****
+
+Time Taken by Joe's Program is 156.148417l
+ For Image of 30000 X 30000 for 32 Nodes
+**** Susie's Program ****
+
+Time Taken by Susie's Program is 124.240179l 
+ For Image of 30000 X 30000 for 32 Nodes
+**** END ****

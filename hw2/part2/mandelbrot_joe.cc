@@ -34,6 +34,7 @@ int main(int argc, char* argv[]) {
   double maxX = 0.7;
   double minY = -1.25;
   double maxY = 1.25;
+  char outfilename[80];
   int rank, size, moveBy, blkSIZE,dataSIZE;
   int height, width;
   int receiverRank = 0;
@@ -108,9 +109,12 @@ int main(int argc, char* argv[]) {
       }
       y += it;
     }
-
-    gil::png_write_view("mandelbrotJoe.png", const_view(img));
-    cout<<"program using Joe's Idea is finished. It has run for :"<<(MPI_Wtime()-timeStart)<<endl;
+    sprintf(outfilename,"mandelbrot_joe_%dx%d_%d.png",width,height,size);
+    gil::png_write_view(outfilename, const_view(img));
+    
+    printf("\nTime Taken by Joe's Program is %fl\n",MPI_Wtime()-timeStart);
+    printf(" For Image of %d X %d for %d Nodes\n",width,height,size);
+  
   }
 
   MPI_Finalize();

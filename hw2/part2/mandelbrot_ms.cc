@@ -29,7 +29,7 @@ int mandelbrot(double x, double y) {
 }
 
 
-void slave()
+void slave(int width,double minX,double minY, double jt,double it)
 {
 	int tempbuf[width+1];
 
@@ -41,8 +41,10 @@ void slave()
 
 	while(1)
 	{
-		MPI_Receive(&row_id,1,MPI_INT,0,MPI_ANY_TAG,MPI_COMM_WORLD,&status);
-
+		MPI_Recv(&row_id,1,MPI_INT,0,MPI_ANY_TAG,MPI_COMM_WORLD,&status);
+		
+		if(status.MPI_TAG == 0)
+		  return;
 		y=minY + row_id*it;
 		x=minX;
 		for(int c=0;c<width;++c)
@@ -52,7 +54,7 @@ void slave()
 		}
 
 		tempbuf[width] = row_id;
-		MPI_Send(tempbuf,width+1,MPI_INT,0,MPI_ANY_TAG,MPI_COMM_WORLD);
+		MPI_Send(tempbuf,width+1,MPI_INT,0,1,MPI_COMM_WORLD);
 	}
 
 }
@@ -65,9 +67,10 @@ void master(int height,int width, int size,double minX,double minY,double jt,dou
 
 	sprintf(outfilename,"mandelbrot_ms_%dx%d_%d.png",width,height,size);
 
-	int tempimg[height*width], slavebuf[width+1];
+	int *tempimg, slavebuf[width+1];
+	tempimg = new int[height*width];
 
-	MPI_status status;
+	MPI_Status status;
 
 	gil::rgb8_image_t img(height, width);
    	auto img_view = gil::view(img);
@@ -77,23 +80,24 @@ void master(int height,int width, int size,double minX,double minY,double jt,dou
 
 	for(int i=1;i<size;++i)
 	{
-		MPI_Send(&rowid,1,MPI_INT,i,MPI_ANY_TAG,MPI_COMM_WORLD);
-		++rowid;
+		MPI_Send(&row_id,1,MPI_INT,i,1,MPI_COMM_WORLD);
+		++row_id;
 	}
 
-	while(rowid<height)
+	while(row_id<height)
 	{
-		MPI_Receive(slavebuf,width+1,MPI_INT,MPI_ANY_SOURCE,MPI_ANY_TAG,MPI_COMM_WORLD,&status);
-		MPI_Send(&rowid,1,MPI_INT,status.MPI_SOURCE,MPI_ANY_TAG,MPI_COMM_WORLD);
+		MPI_Recv(slavebuf,width+1,MPI_INT,MPI_ANY_SOURCE,MPI_ANY_TAG,MPI_COMM_WORLD,&status);
+		MPI_Send(&row_id,1,MPI_INT,status.MPI_SOURCE,1,MPI_COMM_WORLD);
 		++row_id;
 		++row_count;
-		memcpy((&tempimg + slavebuf[width]*width),slavebuf,width*sizeof(int));
+		memcpy((tempimg + slavebuf[width]*width),slavebuf,width*sizeof(int));
 	}
 
-	while(row_count<height)
-	{
-		MPI_Receive(slavebuf,width+1,MPI_INT,MPI_ANY_SOURCE,MPI_ANY_TAG,MPI_COMM_WORLD,&status);
-		memcpy((&tempimg + slavebuf[width]*width),slavebuf,width*sizeof(int));
+	for(int i=1;i<size;++i)
+	  {
+		MPI_Recv(slavebuf,width+1,MPI_INT,MPI_ANY_SOURCE,MPI_ANY_TAG,MPI_COMM_WORLD,&status);
+		MPI_Send(0,0,MPI_INT,status.MPI_SOURCE,0,MPI_COMM_WORLD);
+		memcpy((tempimg + slavebuf[width]*width),slavebuf,width*sizeof(int));
 		++row_count;	
 	}
 
@@ -143,16 +147,17 @@ main (int argc, char* argv[])
   	double start_time = MPI_Wtime();
   	master(height,width,size,minX,minY,jt,it);
   	printf("\nTime Taken by the Master-Slave Program is %fl \n",MPI_Wtime()-start_time);
+	printf(" For Image of %d X %d for %d Nodes\n",width,height,size);
   }
 
   else
   {
-  	slave(width,rank,minX,minY,jt,it)
+    slave(width,minX,minY,jt,it);
   }
 
   MPI_Finalize();
 
-  return 1;
+  return 0;
 
 
 }

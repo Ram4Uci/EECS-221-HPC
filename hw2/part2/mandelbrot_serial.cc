@@ -6,7 +6,7 @@
 
 #include <iostream>
 #include <cstdlib>
-
+#include <mpi.h>
 #include "render.hh"
 
 using namespace std;
@@ -38,6 +38,10 @@ main(int argc, char* argv[]) {
   double minY = -1.25;
   double maxY = 1.25;
   
+  double start_time;
+  
+  char outfilename[80];
+
   int height, width;
   if (argc == 3) {
     height = atoi (argv[1]);
@@ -58,6 +62,7 @@ main(int argc, char* argv[]) {
   auto img_view = gil::view(img);
 
   y = minY;
+  start_time = MPI_Wtime();
   for (int i = 0; i < height; ++i) {
     x = minX;
     for (int j = 0; j < width; ++j) {
@@ -66,7 +71,10 @@ main(int argc, char* argv[]) {
     }
     y += it;
   }
-  gil::png_write_view("mandelbrot.png", const_view(img));
+  sprintf(outfilename,"mandelbrot_serial_%dx%d.png",width,height);
+  gil::png_write_view(outfilename, const_view(img));
+  printf("\nTime Taken by the Serial Program is %fl \n",MPI_Wtime()-start_time);
+  printf(" For Image of %d X %d \n",width,height);
 }
 
 /* eof */

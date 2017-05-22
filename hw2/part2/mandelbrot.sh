@@ -1,7 +1,7 @@
 #!/bin/bash
 #$ -N Mandelbrot
-#$ -q class8-intel
-#$ -pe one-node-mpi 1
+#$ -q class64-amd
+#$ -pe one-node-mpi 32
 #$ -R y
 
 # Grid Engine Notes:
@@ -17,4 +17,15 @@ module load boost/1.57.0
 module load openmpi-1.8.3/gcc-4.9.2
 
 # Run the program 
-mpirun -np 1  ./mandelbrot_serial 1000 1000
+for size in 500 1000 2000 5000 10000 20000 30000; do
+    echo "**** Size = ${size} ****"
+    echo "**** Master Slave Program ****"
+    mpirun -np 32  ./mandelbrot_ms ${size} ${size}
+    echo "**** Joe's Program ****"
+    mpirun -np 32  ./mandelbrot_joe ${size} ${size}
+    echo "**** Susie's Program ****"
+    mpirun -np 32  ./mandelbrot_susie ${size} ${size}
+    echo "**** END ****"
+done
+
+    
