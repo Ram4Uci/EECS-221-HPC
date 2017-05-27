@@ -69,7 +69,7 @@ MPI_Offset filesize;
 	
 	//Getting number of processes.
 	MPI_Comm_size(MPI_COMM_WORLD,&size);
-	
+	cout<<"Size = "<<size;
 	//Getting rank of process.
 	MPI_Comm_rank(MPI_COMM_WORLD,&rank);
 
