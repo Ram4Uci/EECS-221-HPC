@@ -110,6 +110,7 @@ int main(int argc, char *argv[])
 
  ifstream in;
  in.open(filename);
+ 
  while (!in.eof())
  {
     //getting one line in the file 
