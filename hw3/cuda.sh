@@ -1,5 +1,5 @@
 #!/bin/bash
-#$ -N REDUCE
+#$ -N REDUCE_NAIVE
 #$ -q gpu2
 
 

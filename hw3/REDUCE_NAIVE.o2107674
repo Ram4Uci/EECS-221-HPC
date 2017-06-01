@@ -1,0 +1,47 @@
+Script began: Thu Jun 1 15:51:24 PDT 2017
+Node: compute-7-12.local
+Current directory: /data/users/rrajabas/EECS-221-HPC/hw3
+
+=== Running 5 trials of naive ... ===
+*** Trial 1 ***
+N: 8388608
+Timer: gettimeofday
+Timer resolution: ~ 1 us (?)
+Time to execute naive GPU reduction kernel: 0.000964 secs
+Effective bandwidth: 34.81 GB/s
+Time to execute naive CPU reduction: 0.145669 secs
+SUCCESS: GPU: 41.940136 	CPU: 41.940136
+*** Trial 2 ***
+N: 8388608
+Timer: gettimeofday
+Timer resolution: ~ 1 us (?)
+Time to execute naive GPU reduction kernel: 0.000965 secs
+Effective bandwidth: 34.77 GB/s
+Time to execute naive CPU reduction: 0.115434 secs
+SUCCESS: GPU: 41.942535 	CPU: 41.942535
+*** Trial 3 ***
+N: 8388608
+Timer: gettimeofday
+Timer resolution: ~ 1 us (?)
+Time to execute naive GPU reduction kernel: 0.000963 secs
+Effective bandwidth: 34.84 GB/s
+Time to execute naive CPU reduction: 0.077297 secs
+SUCCESS: GPU: 41.933113 	CPU: 41.933113
+*** Trial 4 ***
+N: 8388608
+Timer: gettimeofday
+Timer resolution: ~ 1 us (?)
+Time to execute naive GPU reduction kernel: 0.000962 secs
+Effective bandwidth: 34.88 GB/s
+Time to execute naive CPU reduction: 0.076555 secs
+SUCCESS: GPU: 41.947357 	CPU: 41.947361
+*** Trial 5 ***
+N: 8388608
+Timer: gettimeofday
+Timer resolution: ~ 1 us (?)
+Time to execute naive GPU reduction kernel: 0.000961 secs
+Effective bandwidth: 34.92 GB/s
+Time to execute naive CPU reduction: 0.076467 secs
+SUCCESS: GPU: 41.951836 	CPU: 41.951836
+
+=== Done! ===
