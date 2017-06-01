@@ -17,7 +17,7 @@ echo ""
 echo "=== Running 5 trials of Mergesort on 10 million elements ... ==="
 for trial in 1 2 3 4 5 ; do
   echo "*** Trial ${trial} ***"
-perf record  ./bmh_omp ../gene.txt catgtag 64
+/usr/bin/time ./bmh_omp ../gene.txt catgtag 64
 done
 
 echo ""
