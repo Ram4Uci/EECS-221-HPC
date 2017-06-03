@@ -1,5 +1,5 @@
 #!/bin/bash
-#$ -N REDUCE_STRIDE
+#$ -N REDUCE_UNROLL
 #$ -q gpu2
 
 
@@ -41,7 +41,7 @@ echo ""
 echo "=== Running 5 trials of naive ... ==="
 for trial in 1 2 3 4 5; do
   echo "*** Trial ${trial} ***"
-  ./stride
+  ./unroll
 done
 
 echo ""
