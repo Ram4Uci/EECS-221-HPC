@@ -6,7 +6,7 @@
 
 typedef float dtype;
 
-#define N_ (8 * 1024 * 1024)
+#define N_ (16 * 1024 * 1024)
 #define MAX_THREADS 256
 #define MAX_BLOCKS 64
 
@@ -91,10 +91,10 @@ kernel4(dtype *input, dtype *output, unsigned int n)
   volatile dtype *scratch_temp = scratch;
   if(n>64)   scratch_temp[threadIdx.x] += scratch_temp[32 + threadIdx.x];
   if(n>32)   scratch_temp[threadIdx.x] += scratch_temp[16 + threadIdx.x];
-  if(n>16)   scratch_temp[threadIdx.x] += scratch_temp[8 + threadIdx.x];
-  if(n>4)    scratch_temp[threadIdx.x] += scratch_temp[4 + threadIdx.x];
-  if(n>2)    scratch_temp[threadIdx.x] += scratch_temp[2 + threadIdx.x]; 
-  if(n>1)    scratch_temp[threadIdx.x] += scratch_temp[1 + threadIdx.x];
+  	     scratch_temp[threadIdx.x] += scratch_temp[8 + threadIdx.x];
+  	     scratch_temp[threadIdx.x] += scratch_temp[4 + threadIdx.x];
+  	     scratch_temp[threadIdx.x] += scratch_temp[2 + threadIdx.x]; 
+  	     scratch_temp[threadIdx.x] += scratch_temp[1 + threadIdx.x];
    }
 
  if(threadIdx.x == 0) {

@@ -6,7 +6,7 @@
 
 typedef float dtype;
 
-#define N_ (8 * 1024 * 1024)
+#define N_ (16 * 1024 * 1024)
 #define MAX_THREADS 256
 #define MAX_BLOCKS 64
 
@@ -67,7 +67,7 @@ kernel1(dtype *input, dtype *output, unsigned int n)
 
  unsigned int bid = gridDim.x * blockIdx.y + blockIdx.x;
  unsigned int i = bid * blockDim.x + threadIdx.x;
-
+ 
  if(i < n) {
  scratch[threadIdx.x] = input[i];
  } else {
@@ -75,9 +75,9 @@ kernel1(dtype *input, dtype *output, unsigned int n)
  }
  __syncthreads ();
  int k=1; 
- for(unsigned int s = 1; s < blockDim.x; s = s << 1, k++) {
+ for(unsigned int s = 1; s < blockDim.x; s<<= 1, ++k) {
  if(threadIdx.x < (blockDim.x>>k)) { 
- scratch[threadIdx.x*(2*s)] += scratch[threadIdx.x*(2*s) + s];
+ scratch[threadIdx.x*(s<<1)] += scratch[threadIdx.x*(s<<1) + s];
  }
  __syncthreads ();
  }

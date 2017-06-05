@@ -6,7 +6,7 @@
 
 typedef float dtype;
 
-#define N_ (8 * 1024 * 1024)
+#define N_ (16 * 1024 * 1024)
 #define MAX_THREADS 256
 #define MAX_BLOCKS 64
 
@@ -77,7 +77,7 @@ kernel3(dtype *input, dtype *output, unsigned int n)
  }
  __syncthreads ();
 
- for(unsigned int s =limit; s >=1; s = s >> 1) 
+ for(unsigned int s =limit; s >=1; s >>= 1) 
 {
  	      if(threadIdx.x <s) {
  	      scratch[threadIdx.x] += scratch[s + threadIdx.x];

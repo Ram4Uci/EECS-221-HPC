@@ -6,7 +6,7 @@
 
 typedef float dtype;
 
-#define N_ (8 * 1024 * 1024)
+#define N_ (16 * 1024 * 1024)
 #define MAX_THREADS 256
 #define MAX_BLOCKS 64
 
@@ -60,8 +60,44 @@ dtype reduce_cpu(dtype *data, int n) {
 
 
 __global__ void
-kernel5(dtype *g_idata, dtype *g_odata, unsigned int n)
+kernel5(dtype *input, dtype *output, unsigned int n)
 {
+ __shared__ dtype scratch[MAX_THREADS];
+
+ unsigned int i = blockIdx.x*blockDim.x + threadIdx.x;
+ unsigned int limit = blockDim.x>>1;
+ unsigned int gridSize = (blockDim.x*gridDim.x)<<1;
+ scratch[threadIdx.x] = 0;
+ while(i<n)
+ {
+ scratch[threadIdx.x] += input[i] + input[i+(gridSize>>1)];
+ i+=gridSize;
+ }
+ 
+ __syncthreads ();
+ for(unsigned int s =limit; s >32; s >>= 1)
+ {
+	if(threadIdx.x<s)
+	{
+	scratch[threadIdx.x] += scratch[s + threadIdx.x];					     
+	}
+	__syncthreads ();
+ }
+ if(threadIdx.x<32)
+ {
+	volatile dtype *scratch_temp = scratch;
+	if(n>64)   scratch_temp[threadIdx.x] += scratch_temp[32 + threadIdx.x];
+	if(n>32)   scratch_temp[threadIdx.x] += scratch_temp[16 + threadIdx.x];
+	   scratch_temp[threadIdx.x] += scratch_temp[8 + threadIdx.x];
+  	   scratch_temp[threadIdx.x] += scratch_temp[4 + threadIdx.x];
+           scratch_temp[threadIdx.x] += scratch_temp[2 + threadIdx.x];
+	   scratch_temp[threadIdx.x] += scratch_temp[1 + threadIdx.x];
+ }
+ if(threadIdx.x == 0)
+ {
+  output[blockIdx.x] = scratch[0];
+ }
+
 }
 
 
