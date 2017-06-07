@@ -1,5 +1,5 @@
 #!/bin/bash
-#$ -N NAIVE_1
+#$ -N MULTIPLE_1
 #$ -q gpu2
 
 
@@ -41,7 +41,7 @@ echo ""
 echo "=== Running 5 trials of naive ... ==="
 for trial in 1 2 3 4 5; do
   echo "*** Trial ${trial} ***"
-  ./naive
+  ./multiple
 done
 
 echo ""

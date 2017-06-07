@@ -6,7 +6,7 @@
 
 typedef float dtype;
 
-#define N_ (16 * 1024 * 1024)
+#define N_ (8 * 1024 * 1024)
 #define MAX_THREADS 256
 #define MAX_BLOCKS 64
 
@@ -58,7 +58,6 @@ dtype reduce_cpu(dtype *data, int n) {
     return sum;
 }
 
-
 __global__ void
 kernel5(dtype *input, dtype *output, unsigned int n)
 {
@@ -66,12 +65,12 @@ kernel5(dtype *input, dtype *output, unsigned int n)
 
  unsigned int i = blockIdx.x*blockDim.x + threadIdx.x;
  unsigned int limit = blockDim.x>>1;
- unsigned int gridSize = (blockDim.x*gridDim.x)<<1;
+ unsigned int shift = (blockDim.x*gridDim.x)<<1;
  scratch[threadIdx.x] = 0;
  while(i<n)
  {
- scratch[threadIdx.x] += input[i] + input[i+(gridSize>>1)];
- i+=gridSize;
+ scratch[threadIdx.x] += input[i] + input[i+(shift>>1)];
+ i+=shift;
  }
  
  __syncthreads ();
