@@ -29,6 +29,7 @@ const occtable_type create_table(const unsigned char* str , size_t str_length )
 
 int main(int argc,char *argv[])
 {
+double start_time = MPI_Wtime();
 occtable_type occ1;
 MPI_File file;
 const char* str;
@@ -69,7 +70,7 @@ MPI_Offset filesize;
 	
 	//Getting number of processes.
 	MPI_Comm_size(MPI_COMM_WORLD,&size);
-	
+	//cout<<"Size = "<<size;
 	//Getting rank of process.
 	MPI_Comm_rank(MPI_COMM_WORLD,&rank);
 
@@ -102,15 +103,16 @@ MPI_Offset filesize;
     block[blocksize] = '\0';	
 
  	if(rank == 0){  
-      cout<<"String '"<<str<<"' is being searched in file '"<<filename<<"'"<<endl;
+	   cout<<"String '"<<str<<"' is being searched in file '"<<filename<<"'"<<endl;
     }
     
-    cout<<"Length of file "<<filesize<<" is divided into blocksize "<<blocksize<<" for node "<<rank<<endl;
+	//cout<<"Length of file "<<filesize<<" is divided into blocksize "<<blocksize<<" for node "<<rank<<endl;
   
 	// Making pointer point to start of block
 	text =&block[0];
-while(text_pos <= (blocksize - str_len ))	
-{
+	
+	while(text_pos <= (blocksize - str_len ))	
+	  {
 		// Selecting charachter at position equal to pattern length . -1 is to nullify
 		// the 0th element.
 		occ_char = text[text_pos + str_len -1];
@@ -136,6 +138,7 @@ MPI_Reduce(&temp_count,&final_count,1,MPI_INT,MPI_SUM,0,MPI_COMM_WORLD);
 
 if(rank == 0){
 	cout<<"Total number of occurances of string in text = "<<final_count<<endl;
+	cout<<"Time taken = "<<MPI_Wtime()-start_time<<endl;
 }
 
 MPI_File_close(&file);

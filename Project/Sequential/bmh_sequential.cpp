@@ -46,6 +46,7 @@ int boyer_moore_horsepool_sequential(char* text, size_t txt_len, const char* str
 
 int main(int argc, char *argv[])
 {
+  double start = omp_get_wtime();
 	int count;
 	bad_match_table tab1;
 	const char* str;
@@ -84,16 +85,18 @@ cout<<"Length of text to be scanned is "<<text_len<<" and length of pattern is "
 //Calling function to generate the occurrence table . We have to reinterpret_cast in
 // order to match the arguments of func. call and func. declaration.
 tab1 = create_table(reinterpret_cast <const unsigned char*> (str),str_len);
-double start = omp_get_wtime();
+
 count = boyer_moore_horsepool_sequential(text,text_len,str,str_len,tab1);
-cout<<"\nTimeTaken = "<<omp_get_wtime()-start<<"\n";
+
 if(count == 0)
 cout<< " No match found and error in handling the text" <<endl;
 else
 {	
   //int match = sizeof(count)/sizeof(int);
 	cout<<"Total number of occurances of string in text = "<<count<<endl;
+	cout<<"\nTimeTaken = "<<omp_get_wtime()-start<<"\n";
 	/*	for(int i=0;i<match;i++)
+
 	{
 	  cout<<count[i]<<",";
 	  }*/

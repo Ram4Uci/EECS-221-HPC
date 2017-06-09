@@ -1,10 +1,14 @@
 #!/bin/bash
-#$ -N bmh_omp
-#$ -q class64-amd 
-#$ -pe openmp 64
+#$ -N bmh_mpi
+#$ -q class8-intel 
+#$ -pe mpi 64
+#$ -R y
 
-# Module load gcc compiler version 4.9.2
-module load  gcc/4.9.2
+# Module load boost
+module load boost/1.57.0
+
+# Module load OpenMPI
+module load openmpi-1.8.3/gcc-4.9.2
 
 # Runs a bunch of standard command-line
 # utilities, just as an example:
@@ -17,7 +21,7 @@ echo ""
 echo "=== Running 5 trials of Mergesort on 10 million elements ... ==="
 for trial in 1 2 3 4 5 ; do
   echo "*** Trial ${trial} ***"
-/usr/bin/time ./bmh_omp ../gene.txt catgtag 64
+/usr/bin/time mpirun -np 64 ./bmh_mpi ../gene.txt catgtag 7
 done
 
 echo ""
