@@ -110,7 +110,7 @@ int main(int argc, char *argv[])
 
  ifstream in;
  in.open(filename);
- 
+ double start = omp_get_wtime();
  while (!in.eof())
  {
     //getting one line in the file 
@@ -134,9 +134,10 @@ cout<<"Length of text to be scanned is "<<text_len<<" and length of pattern is "
 //Calling function to generate the occurrence table . We have to reinterpret_cast in
 // order to match the arguments of func. call and func. declaration.
 tab1 = create_table(reinterpret_cast <const unsigned char*> (str),str_len);
-double start = omp_get_wtime();
+double mid = omp_get_wtime();
+cout<<"Pre processing time = "<< mid-start<<"\n";
 count = boyer_moore_horsepool_sequential(text,text_len,str,str_len,tab1,num);
-cout<<"\nTimeTaken = "<<omp_get_wtime()-start<<"\n";
+cout<<"\nTimeTaken = "<<omp_get_wtime()-mid<<"\n";
 if(count == 0)
 cout<< " No match found and error in handling the text" <<endl;
 else
