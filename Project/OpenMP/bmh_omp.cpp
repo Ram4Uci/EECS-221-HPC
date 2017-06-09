@@ -30,7 +30,7 @@ int boyer_moore_horsepool_sequential(char* text, size_t txt_len, const char* str
 	unsigned char occ_char;	
 	int count=0,temp,tid;
 	int offset = str_len-1;
-	while(text_pos<=text_len)
+	while(text_pos<=txt_len)
 	{
 		occ_char = text[text_pos + str_len -1];
 		if(occ_char == str[str_len-1] && (memcmp(str, text+text_pos, str_len - 1) == 0) )
@@ -45,12 +45,13 @@ int boyer_moore_horsepool_sequential(char* text, size_t txt_len, const char* str
 
 int main(int argc, char *argv[])
 {
-        
+       	double start = omp_get_wtime();
 	int count=0,num=8;
 	bad_match_table tab1;
+	double mid;
 	const char* str;
 	const char* filename;
-	string file_str, temp_str;
+	string file_str,  temp_str;
 	char* text;
 	unsigned char occ_char;
 	
@@ -59,40 +60,49 @@ int main(int argc, char *argv[])
 	num =atoi(argv[3]);
 	cout<<"Finding string '"<<str<<"' in text file "<<filename<<endl;
 	//Create BAD MATCH TABLE
-	double start = omp_get_wtime();
+
+ 	size_t str_len = strlen(str);
 	tab1 = create_table(reinterpret_cast <const unsigned char*> (str),str_len);
 	
 	//READ FROM THE FILE AND PERFORM ALGORITHM PARALLELLY
 
-	FILE *in;
- 	in = fopen(filename,"rb");
- 	fseek(in,0,SEEK_END);
- 	const unsigned int size = ftell(in)/num;
- 	size_t str_len = strlen(str);
- 	cout<<"Length of text to be scanned is "<<(size<<6)<<" and length of pattern is "<<str_len<<endl;
- 	fclose(in);
- 	in = fopen(filename,"r");
+	FILE *ins;
+ 	ins = fopen(filename,"rb");
+ 	fseek(ins,0,SEEK_END);
+ 	const unsigned int size = ftell(ins)/num;
+
+ 	cout<<"Length of text to be scanned is "<<size<<" and length of pattern is "<<str_len<<endl;
+ 	fclose(ins);
  	
- 	#pragma omp parallel shared(in,str,str_len,tab1) num_threads(num)
+ 	
+ 	#pragma omp parallel shared(str,str_len,tab1) num_threads(num)
  	{
- 		int tid = omp_get_thread_num();
- 		char text[size];
+	        FILE *in;
+	        in = fopen(filename,"r");
+	        int tid = omp_get_thread_num();
+ 		string text;
+		char buf[size];  
  		int temp = 0;
- 		fseek(in,size*tid,SEEK_SET);
- 		fgets(text,size,in);
- 		size_t text_len = strlen(text);
- 		#pragma omp barrier;
- 		#pragma omp single
- 		{
+ 		fseek(in,(size*tid)+str_len-1,SEEK_SET);
+ 		fgets(buf,size,in);
+		text = buf;
+		int rem = size - text.length();
+		int pos = ftell(in);
+		while((pos<=size*(tid+1))&&rem>0)
+		  {
+		    fgets(buf,size-text.length(),in);
+		    text+=buf;
+		    rem = size - text.length();
+		    pos = ftell(in);
+		  }
+ 		size_t text_len = text.length();
  		fclose(in);
-		double mid = omp_get_wtime();
-		cout<<"Pre processing time = "<< mid-start<<"\n";
-		}
-		temp = boyer_moore_horsepool_sequential(text,text_len,str,str_len,tab1);
+		transform(text.begin(),text.end(),text.begin(), ::tolower);
+		temp = boyer_moore_horsepool_sequential(&text[0],text_len,str,str_len,tab1);
 		#pragma omp atomic
 		count+=temp;
 	}
-		cout<<"\nAlgorithm TimeTaken = "<<omp_get_wtime()-mid<<"\n";
+
 		
 //Calling function to generate the occurrence table . We have to reinterpret_cast in
 // order to match the arguments of func. call and func. declaration.

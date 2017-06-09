@@ -46,7 +46,7 @@ int boyer_moore_horsepool_sequential(char* text, size_t txt_len, const char* str
 
 int main(int argc, char *argv[])
 {
-  double start = omp_get_wtime();
+    double start = omp_get_wtime();
 	int count;
 	bad_match_table tab1;
 	const char* str;
