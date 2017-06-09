@@ -1,0 +1,77 @@
+Script began: Fri Jun 9 00:52:25 PDT 2017
+Node: compute-7-4.local
+Current directory: /data/users/rrajabas/EECS-221-HPC/Project/OpenMP
+
+=== Running 5 trials of Mergesort on 10 million elements ... ===
+*** Trial 1 ***
+Finding string 'catgtag' in text file ../gene.txt
+Length of text to be scanned is 91626672 and length of pattern is 7
+Pre processing time = 3.17234
+
+ blocksize =1431666
+
+TimeTaken = 0.0269525
+
+ blocksize =1431666
+Total number of occurances of string in text = 1586
+
+TimeTaken = 3.21492
+
+*** Trial 2 ***
+Finding string 'catgtag' in text file ../gene.txt
+Length of text to be scanned is 91626672 and length of pattern is 7
+Pre processing time = 2.49118
+
+ blocksize =1431666
+
+TimeTaken = 0.0264574
+
+ blocksize =1431666
+Total number of occurances of string in text = 1586
+
+TimeTaken = 2.53216
+
+*** Trial 3 ***
+Finding string 'catgtag' in text file ../gene.txt
+Length of text to be scanned is 91626672 and length of pattern is 7
+Pre processing time = 2.41885
+
+ blocksize =1431666
+
+TimeTaken = 0.0266063
+
+ blocksize =1431666
+Total number of occurances of string in text = 1586
+
+TimeTaken = 2.46228
+
+*** Trial 4 ***
+Finding string 'catgtag' in text file ../gene.txt
+Length of text to be scanned is 91626672 and length of pattern is 7
+Pre processing time = 2.40038
+
+ blocksize =1431666
+
+TimeTaken = 0.0261949
+
+ blocksize =1431666
+Total number of occurances of string in text = 1586
+
+TimeTaken = 2.45061
+
+*** Trial 5 ***
+Finding string 'catgtag' in text file ../gene.txt
+Length of text to be scanned is 91626672 and length of pattern is 7
+Pre processing time = 2.34478
+
+ blocksize =1431666
+
+TimeTaken = 0.025871
+
+ blocksize =1431666
+Total number of occurances of string in text = 1586
+
+TimeTaken = 2.3843
+
+
+=== Done! ===
