@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
  		fclose(in);
 		transform(text.begin(),text.end(),text.begin(), ::tolower);
 		temp = boyer_moore_horsepool_sequential(&text[0],text_len,str,str_len,tab1);
-		#pragma omp atomic
+		#pragma omp reduce
 		count+=temp;
 	}
 

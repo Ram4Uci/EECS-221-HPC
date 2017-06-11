@@ -1,42 +1,42 @@
-Script began: Fri Jun 9 16:37:59 PDT 2017
+Script began: Sat Jun 10 20:09:12 PDT 2017
 Node: compute-7-4.local
-Current directory: /data/users/rrajabas/EECS-221-HPC/Project/Sequential
+Current directory: /data/users/rrajabas/EECS-221-HPC/Project/OpenMP
 
 === Running 5 trials of Mergesort on 10 million elements ... ===
 *** Trial 1 ***
 Finding string 'catgtag' in text file ../gene.txt
-Length of text to be scanned is 91626672 and length of pattern is 7
+Length of text to be scanned is 1431671 and length of pattern is 7
 Total number of occurances of string in text = 1586
 
-TimeTaken = 2.90497
+TimeTaken = 0.186324
 
 *** Trial 2 ***
 Finding string 'catgtag' in text file ../gene.txt
-Length of text to be scanned is 91626672 and length of pattern is 7
+Length of text to be scanned is 1431671 and length of pattern is 7
 Total number of occurances of string in text = 1586
 
-TimeTaken = 2.98285
+TimeTaken = 0.186427
 
 *** Trial 3 ***
 Finding string 'catgtag' in text file ../gene.txt
-Length of text to be scanned is 91626672 and length of pattern is 7
+Length of text to be scanned is 1431671 and length of pattern is 7
 Total number of occurances of string in text = 1586
 
-TimeTaken = 2.92066
+TimeTaken = 0.191392
 
 *** Trial 4 ***
 Finding string 'catgtag' in text file ../gene.txt
-Length of text to be scanned is 91626672 and length of pattern is 7
+Length of text to be scanned is 1431671 and length of pattern is 7
 Total number of occurances of string in text = 1586
 
-TimeTaken = 2.93959
+TimeTaken = 0.193206
 
 *** Trial 5 ***
 Finding string 'catgtag' in text file ../gene.txt
-Length of text to be scanned is 91626672 and length of pattern is 7
+Length of text to be scanned is 1431671 and length of pattern is 7
 Total number of occurances of string in text = 1586
 
-TimeTaken = 2.9327
+TimeTaken = 0.207623
 
 
 === Done! ===

@@ -1,7 +1,7 @@
 #!/bin/bash
 #$ -N bmh_s
-#$ -q class64-amd 
-#$ -pe openmp 64
+#$ -q class8-intel 
+#$ -pe openmp 1
 
 # Module load gcc compiler version 4.9.2
 module load  gcc/4.9.2
