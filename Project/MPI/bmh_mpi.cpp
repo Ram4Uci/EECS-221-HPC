@@ -11,163 +11,103 @@
 #include <mpi.h>
 using namespace std;
 
-typedef vector<size_t> occtable_type; // table type for occurrence table
+typedef vector<size_t> bad_match_table;
 
-const occtable_type create_table(const unsigned char* str , size_t str_length )
+const bad_match_table create_table(const unsigned char* str, size_t str_len)
 {
-	occtable_type occ(UCHAR_MAX+1,str_length);
-
-	if(str_length >= 1)
+	bad_match_table tab(UCHAR_MAX+1, str_len);
+	
+	if(str_len >=1)
 	{
-		for( size_t i=0; i<(str_length-1); ++i)
-			occ[str[i]] = (str_length -1)-i;
+		for( size_t i=0; i<str_len-1 ; ++i)
+			tab[str[i]] = str_len-1-i;
+	
 	}
 	
-	return occ;
+	return tab;
 }
 
+int boyer_moore_horsepool_sequential(char* text, size_t txt_len, const char* str, size_t str_len, bad_match_table tab1)
+{
+	size_t text_pos =0;
+	unsigned char occ_char;	
+	int count=0,temp,tid;
+	int offset = str_len-1;
+	while(text_pos<=txt_len)
+	{
+		occ_char = text[text_pos + str_len -1];
+		if(occ_char == str[str_len-1] && (memcmp(str, text+text_pos, str_len - 1) == 0) )
+		{
+		    ++count;
+		}
+		text_pos+=tab1[occ_char];
+	}
+
+	return count;
+}
 
 int main(int argc,char *argv[])
 {
-double start_time = MPI_Wtime();
-double mid_time=0;
-occtable_type occ1;
-const char* str;
-char* filename;
+	double start = omp_get_wtime();
+	int count=0,num=8;
+	bad_match_table tab1;
+	double mid;
+	const char* str;
+	const char* filename;
+	string file_str,  temp_str;
+	
+	unsigned char occ_char;
+	
+	int size,rank;
 
+	filename = argv[1];
+	str = argv[2];
+	num =atoi(argv[3]);
+	cout<<"Finding string '"<<str<<"' in text file "<<filename<<endl;
+	//Create BAD MATCH TABLE
 
-
-unsigned char occ_char;	
-size_t text_pos =0;
-
-int temp_count =0,rank, size, type=99 ,final_count =0;
-char *block;
-char ***lines;
-int *nlines;
-int overlap;
-
-
- filename = argv[1];
- str = argv[2];
- size_t str_len = strlen(str);
-
- FILE *ins;
-
- ins = fopen(filename,"rb");
-
- fseek(ins,0,SEEK_END);
-
-
-
- fclose(ins);
-
-// We add an overlap to ensure that splitting the string does not cause incorrect results. 
- overlap = atoi(argv[3]);
- 
- 	//Calling function to generate the occurrence table . We have to reinterpret_cast in
-	// order to match the arguments of func. call and func. declaration.
-	occ1 = create_table(reinterpret_cast <const unsigned char*> (str),str_len);
-
-//cout<<"Finding string '"<<str<<"' in text file "<<filename<<endl;
-
-	MPI_Status status;	
+ 	size_t str_len = strlen(str);
+	tab1 = create_table(reinterpret_cast <const unsigned char*> (str),str_len);
 
 	
-	//Initialize MPI environment.
-	MPI_Init(&argc, &argv);
-	
-	//Getting number of processes.
-	MPI_Comm_size(MPI_COMM_WORLD,&size);
-	//cout<<"Size = "<<size;
-	//Getting rank of process.
+	MPI_Init(&argc,&argv);
+
+	MPI_File file;
+	MPI_Status status;
+	MPI_Offset filesize,blocksize,start;
+
 	MPI_Comm_rank(MPI_COMM_WORLD,&rank);
+	MPI_Comm_size(MPI_COMM_WORLD,&size);
+	MPI_File_open(MPI_COMM_SELF,filename,MPI_MODE_RDONLY,MPI_INFO_NULL,&file);
+	MPI_File_get_size(file, &filesize);
 
-	FILE *in;
+	char* text;
+	int temp_count;
 
-	in = fopen(filename,"r");
+    blocksize = filesize/size + str_len -1;
+    start = rank * blocksize;
+   
+    text = (char*)malloc((blocksize + 1)*sizeof(char));
 
-	const unsigned int filesize = ftell(ins)/size;
-	MPI_Offset blocksize;
-	MPI_Offset start;
-	MPI_Offset end;
-	MPI_Request request;
+    MPI_File_read_at(file,start,text,blocksize,MPI_CHAR,MPI_STATUS_IGNORE);
 
-    
-    // Calculating length of text and determining how much text should be given to each
-    // node.
-    
-  
-	blocksize = filesize/size + str_len-1;
-	
-    // Creating pointers to start and end of block
-	start = rank * blocksize ;
-	string itext;
-	char *text;
-	char buf[blocksize];  
-	int temp = 0;
-	fseek(in,start,SEEK_SET);
-	fgets(buf,blocksize,in);
-	itext = buf;
-	int rem = size - itext.length();
-	int pos = ftell(in);
-	while((pos<=blocksize*(rank+1))&&rem>0)
-	  {
-	    fgets(buf,blocksize-itext.length(),in);
-	    itext+=buf;
-	    rem = blocksize - itext.length();
-	    pos = ftell(in);
-	  }
-	size_t text_len = itext.length();
-	fclose(in);
-	transform(itext.begin(),itext.end(),itext.begin(), ::tolower);
-	text = &itext[0];
- 	if(rank == 0){  
-	  mid_time = MPI_Wtime();
-	  cout<<"String '"<<str<<"' is being searched in file '"<<filename<<"'"<<endl<<"Mid time = \n"<<mid_time-start_time;
-    }else
-	  {
-	    cout<<"Process "<<rank<<" takes time "<<MPI_Wtime()-start_time<<endl;
-	  }
-    
-	//cout<<"Length of file "<<filesize<<" is divided into blocksize "<<blocksize<<" for node "<<rank<<endl;
-  
-	// Making pointer point to start of block
-	while(text_pos <= (blocksize - str_len ))	
-	  {
-		// Selecting charachter at position equal to pattern length . -1 is to nullify
-		// the 0th element.
-		occ_char = text[text_pos + str_len -1];
-		
-		// If last charachter of pattern matches curent character in text and 
-		// if charachters ahead of current in text contains pattern  , we have a match.
-		// memcmp compares charachters ahead of current with the pattern in blocks of
-		// str_len -1.
-		 
-		if (occ_char == str[str_len-1] && (memcmp(str, text+text_pos, str_len - 1) == 0))
-		{
-		  temp_count++;
-		}
-		
-		// Look at occurrence table and decide how to increment text pointer
-		text_pos += occ1[occ_char];
-		
-}
+    MPI_File_close(&file);
 
-// Adding the tempsum of each thread to the total sum using mpi_reduce
+    temp_count = boyer_moore_horsepool_sequential(text,blocksize,str,str_len,tab1);
 
-MPI_Reduce(&temp_count,&final_count,1,MPI_INT,MPI_SUM,0,MPI_COMM_WORLD);
+    MPI_Reduce(&temp_count,&count,1,MPI_INT,MPI_SUM,0,MPI_COMM_WORLD);
 
-if(rank == 0){
+    if(rank == 0){
+
 	cout<<"Total number of occurances of string in text = "<<final_count<<endl;
-	cout<<"Time taken = "<<MPI_Wtime()-mid_time<<endl;
-}
 
+	cout<<"Time taken = "<<MPI_Wtime()-start_time<<endl;
 
+	}
 
-MPI_Finalize();
+	MPI_Finalize();
 
-return 0;
-
+	return 0;
 }
 
 
