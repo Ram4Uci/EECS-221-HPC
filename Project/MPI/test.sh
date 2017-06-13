@@ -1,6 +1,6 @@
 #!/bin/bash
 #$ -N bmh_mpi
-#$ -q class8-intel 
+#$ -q class64-amd 
 #$ -pe mpi 64
 #$ -R y
 
@@ -21,7 +21,7 @@ echo ""
 echo "=== Running 5 trials of Mergesort on 10 million elements ... ==="
 for trial in 1 2 3 4 5 ; do
   echo "*** Trial ${trial} ***"
-/usr/bin/time mpirun -np 64 ./bmh_mpi ../gene.txt catgtag 7
+mpirun -np 64 ./bmh_mpi ../gene.txt catgtag 7
 done
 
 echo ""

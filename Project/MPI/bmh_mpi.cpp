@@ -30,29 +30,36 @@ const occtable_type create_table(const unsigned char* str , size_t str_length )
 int main(int argc,char *argv[])
 {
 double start_time = MPI_Wtime();
+double mid_time=0;
 occtable_type occ1;
-MPI_File file;
 const char* str;
 char* filename;
 
-char* text ; 
+
+
 unsigned char occ_char;	
 size_t text_pos =0;
-int text_len,ierr;
+
 int temp_count =0,rank, size, type=99 ,final_count =0;
 char *block;
 char ***lines;
 int *nlines;
 int overlap;
 
-MPI_Offset filesize;
-    MPI_Offset blocksize;
-    MPI_Offset start;
-    MPI_Offset end;
 
  filename = argv[1];
  str = argv[2];
  size_t str_len = strlen(str);
+
+ FILE *ins;
+
+ ins = fopen(filename,"rb");
+
+ fseek(ins,0,SEEK_END);
+
+
+
+ fclose(ins);
 
 // We add an overlap to ensure that splitting the string does not cause incorrect results. 
  overlap = atoi(argv[3]);
@@ -64,6 +71,7 @@ MPI_Offset filesize;
 //cout<<"Finding string '"<<str<<"' in text file "<<filename<<endl;
 
 	MPI_Status status;	
+
 	
 	//Initialize MPI environment.
 	MPI_Init(&argc, &argv);
@@ -74,43 +82,56 @@ MPI_Offset filesize;
 	//Getting rank of process.
 	MPI_Comm_rank(MPI_COMM_WORLD,&rank);
 
-	ierr = MPI_File_open(MPI_COMM_WORLD, filename, MPI_MODE_RDONLY, MPI_INFO_NULL, &file);
-    // Handling scenario where we are unable to open file
-    if (ierr) {
-        if (rank == 0) 
-        	cout<<"MPI_File_open Failed !"<<endl;
-        MPI_Finalize();
-        exit(2);
-    }
+	FILE *in;
+
+	in = fopen(filename,"r");
+
+	const unsigned int filesize = ftell(ins)/size;
+	MPI_Offset blocksize;
+	MPI_Offset start;
+	MPI_Offset end;
+	MPI_Request request;
+
     
     // Calculating length of text and determining how much text should be given to each
     // node.
     
-    MPI_File_get_size(file, &filesize);
-    blocksize = filesize/size;
+  
+	blocksize = filesize/size + str_len-1;
 	
     // Creating pointers to start and end of block
-    start = rank * blocksize;
-    end   = start + blocksize - 1;
-    
-    
-	 /* Allocating memory for block*/
-    block = (char*)malloc((blocksize + 1)*sizeof(char));
-    
-    //Reading data of file into blocks
-    MPI_File_read_at_all(file, start, block, blocksize, MPI_CHAR, MPI_STATUS_IGNORE);
-   
-    block[blocksize] = '\0';	
-
+	start = rank * blocksize ;
+	string itext;
+	char *text;
+	char buf[blocksize];  
+	int temp = 0;
+	fseek(in,start,SEEK_SET);
+	fgets(buf,blocksize,in);
+	itext = buf;
+	int rem = size - itext.length();
+	int pos = ftell(in);
+	while((pos<=blocksize*(rank+1))&&rem>0)
+	  {
+	    fgets(buf,blocksize-itext.length(),in);
+	    itext+=buf;
+	    rem = blocksize - itext.length();
+	    pos = ftell(in);
+	  }
+	size_t text_len = itext.length();
+	fclose(in);
+	transform(itext.begin(),itext.end(),itext.begin(), ::tolower);
+	text = &itext[0];
  	if(rank == 0){  
-	   cout<<"String '"<<str<<"' is being searched in file '"<<filename<<"'"<<endl;
-    }
+	  mid_time = MPI_Wtime();
+	  cout<<"String '"<<str<<"' is being searched in file '"<<filename<<"'"<<endl<<"Mid time = \n"<<mid_time-start_time;
+    }else
+	  {
+	    cout<<"Process "<<rank<<" takes time "<<MPI_Wtime()-start_time<<endl;
+	  }
     
 	//cout<<"Length of file "<<filesize<<" is divided into blocksize "<<blocksize<<" for node "<<rank<<endl;
   
 	// Making pointer point to start of block
-	text =&block[0];
-	
 	while(text_pos <= (blocksize - str_len ))	
 	  {
 		// Selecting charachter at position equal to pattern length . -1 is to nullify
@@ -138,10 +159,10 @@ MPI_Reduce(&temp_count,&final_count,1,MPI_INT,MPI_SUM,0,MPI_COMM_WORLD);
 
 if(rank == 0){
 	cout<<"Total number of occurances of string in text = "<<final_count<<endl;
-	cout<<"Time taken = "<<MPI_Wtime()-start_time<<endl;
+	cout<<"Time taken = "<<MPI_Wtime()-mid_time<<endl;
 }
 
-MPI_File_close(&file);
+
 
 MPI_Finalize();
 
