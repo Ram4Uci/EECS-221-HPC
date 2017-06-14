@@ -1,7 +1,7 @@
 #!/bin/bash
-#$ -N bmh_mpi_7_8
+#$ -N bmh_mpi_50
 #$ -q class8-intel 
-#$ -pe one-node-mpi 8
+#$ -pe mpi 64
 #$ -R y
 
 # Module load boost
@@ -21,7 +21,7 @@ echo ""
 echo "=== Running 5 trials of Mergesort on 10 million elements ... ==="
 for trial in 1 2 3 4 5 ; do
   echo "*** Trial ${trial} ***"
-mpirun -np 8 ./bmh_mpi ../gene.txt catgtag
+mpirun -np 64 ./bmh_mpi ../gene.txt catcatcatgcatcatcatgcatcatcatgcatcatcatgcatcatcatg
 done
 
 echo ""

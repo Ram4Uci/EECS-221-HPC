@@ -9,7 +9,11 @@
 
 using namespace std;
 
+//Defining the Bad_Match_Table
+
 typedef vector<size_t> bad_match_table;
+
+// Create Bad_Match_Table 
 
 const bad_match_table create_table(const unsigned char* str, size_t str_len)
 {
@@ -24,7 +28,10 @@ const bad_match_table create_table(const unsigned char* str, size_t str_len)
 	
 	return tab;
 }
-int boyer_moore_horsepool_sequential(char* text, size_t txt_len, const char* str, size_t str_len, bad_match_table tab1)
+
+//Boyer Moore Horspool Algorithm
+
+int boyer_moore_horspool(char* text, size_t txt_len, const char* str, size_t str_len, bad_match_table tab1)
 {
 	size_t text_pos =0;
 	unsigned char occ_char;	
@@ -48,7 +55,7 @@ int main(int argc, char *argv[])
        	double start = omp_get_wtime();
 	int count=0,num=8;
 	bad_match_table tab1;
-	double mid;
+	
 	const char* str;
 	const char* filename;
 	string file_str,  temp_str;
@@ -59,9 +66,9 @@ int main(int argc, char *argv[])
 	str = argv[2];
 	num =atoi(argv[3]);
 	cout<<"Finding string '"<<str<<"' in text file "<<filename<<endl;
-	//Create BAD MATCH TABLE
-
  	size_t str_len = strlen(str);
+	
+	//Create BAD MATCH TABLE
 	tab1 = create_table(reinterpret_cast <const unsigned char*> (str),str_len);
 	
 	//READ FROM THE FILE AND PERFORM ALGORITHM PARALLELLY
@@ -74,9 +81,8 @@ int main(int argc, char *argv[])
 
  	cout<<"Length of text to be scanned is "<<size<<" and length of pattern is "<<str_len<<" Threads "<<num<<endl;
  	fclose(ins);
- 	
- 	
-#pragma omp parallel shared(str,str_len,tab1) num_threads(num)
+ 	 	
+        #pragma omp parallel shared(str,str_len,tab1) num_threads(num)
  	{
 	        FILE *in;
 	        in = fopen(filename,"r");
@@ -87,41 +93,33 @@ int main(int argc, char *argv[])
  		int temp = 0;
  		fseek(in,(blocksize*tid),SEEK_SET);
  		fgets(buf,size,in);
+		
+		//Fgets() returns on a '\n'. So repeat Fgets() till size of text is blocksize
+		
 		text = buf;
 		int rem = size - text.length();
 		int pos = ftell(in);
 		while((pos<blocksize*(tid+1))&&rem>0)
-		  {
+		{
 		    fgets(buf,size-text.length(),in);
 		    text+=buf;
 		    rem = size - text.length();
 		    pos = ftell(in);
-		  }
+		}
  		size_t text_len = text.length();
  		fclose(in);
 		transform(text.begin(),text.end(),text.begin(), ::tolower);
-		temp = boyer_moore_horsepool_sequential(&text[0],text_len,str,str_len,tab1);
-		#pragma omp reduce
+		temp = boyer_moore_horspool(&text[0],text_len,str,str_len,tab1);
+                #pragma omp reduce // Sum all the temp count's
 		count+=temp;
 	}
 
-		
-//Calling function to generate the occurrence table . We have to reinterpret_cast in
-// order to match the arguments of func. call and func. declaration.
-
-if(count == 0)
-cout<< " No match found " <<endl;
-else
-{	
-  //int match = sizeof(count)/sizeof(int);
-	cout<<"Total number of occurances of string in text = "<<count<<endl;
-	/*	for(int i=0;i<match;i++)
-	{
-	  cout<<count[i]<<",";
-	  }*/
-	cout<<endl;
-}
-cout<<"\nTimeTaken = "<<omp_get_wtime()-start<<"\n";
-
-return 0;
+	if(count == 0)
+	    cout<< " No match found " <<endl;
+	else
+	  {	
+	    cout<<"Total number of occurances of string in text = "<<count<<endl;
+	  }
+	cout<<"\nTimeTaken = "<<omp_get_wtime()-start<<"\n";
+	return 0;
 }
