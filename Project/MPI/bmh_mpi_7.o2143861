@@ -1,0 +1,42 @@
+Script began: Tue Jun 13 17:07:23 PDT 2017
+Node: compute-13-4.local
+Current directory: /data/users/rrajabas/EECS-221-HPC/Project/MPI
+
+=== Running 5 trials of Mergesort on 10 million elements ... ===
+*** Trial 1 ***
+Read time = 1.02918
+Time for algorithm = 0.01278
+Finding string 'catgtag' in text file ../gene.txt
+Total number of occurances of string in text = 1586
+Reduce time = 0.444502
+Time taken = 1.48649
+*** Trial 2 ***
+Read time = 1.39735
+Time for algorithm = 0.0121939
+Finding string 'catgtag' in text file ../gene.txt
+Total number of occurances of string in text = 1586
+Reduce time = 0.0136671
+Time taken = 1.42322
+*** Trial 3 ***
+Read time = 0.94004
+Time for algorithm = 0.012399
+Finding string 'catgtag' in text file ../gene.txt
+Total number of occurances of string in text = 1586
+Reduce time = 0.512402
+Time taken = 1.46486
+*** Trial 4 ***
+Read time = 1.36992
+Time for algorithm = 0.012455
+Finding string 'catgtag' in text file ../gene.txt
+Total number of occurances of string in text = 1586
+Reduce time = 0.047205
+Time taken = 1.4296
+*** Trial 5 ***
+Read time = 1.35998
+Time for algorithm = 0.012511
+Finding string 'catgtag' in text file ../gene.txt
+Total number of occurances of string in text = 1586
+Reduce time = 0.0541158
+Time taken = 1.42663
+
+=== Done! ===

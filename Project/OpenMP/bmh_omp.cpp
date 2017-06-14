@@ -69,26 +69,28 @@ int main(int argc, char *argv[])
 	FILE *ins;
  	ins = fopen(filename,"rb");
  	fseek(ins,0,SEEK_END);
- 	const unsigned int size = ftell(ins)/num;
+ 	const unsigned int blocksize = ftell(ins)/num ;
+	const unsigned int size = blocksize + str_len -1;
 
- 	cout<<"Length of text to be scanned is "<<size<<" and length of pattern is "<<str_len<<endl;
+ 	cout<<"Length of text to be scanned is "<<size<<" and length of pattern is "<<str_len<<" Threads "<<num<<endl;
  	fclose(ins);
  	
  	
- 	#pragma omp parallel shared(str,str_len,tab1) num_threads(num)
+#pragma omp parallel shared(str,str_len,tab1) num_threads(num)
  	{
 	        FILE *in;
 	        in = fopen(filename,"r");
 	        int tid = omp_get_thread_num();
  		string text;
-		char buf[size];  
+		char *buf;
+		buf = (char*)malloc((size+1)*sizeof(char));
  		int temp = 0;
- 		fseek(in,(size*tid)+str_len-1,SEEK_SET);
+ 		fseek(in,(blocksize*tid),SEEK_SET);
  		fgets(buf,size,in);
 		text = buf;
 		int rem = size - text.length();
 		int pos = ftell(in);
-		while((pos<=size*(tid+1))&&rem>0)
+		while((pos<blocksize*(tid+1))&&rem>0)
 		  {
 		    fgets(buf,size-text.length(),in);
 		    text+=buf;
@@ -108,17 +110,18 @@ int main(int argc, char *argv[])
 // order to match the arguments of func. call and func. declaration.
 
 if(count == 0)
-cout<< " No match found and error in handling the text" <<endl;
+cout<< " No match found " <<endl;
 else
 {	
   //int match = sizeof(count)/sizeof(int);
 	cout<<"Total number of occurances of string in text = "<<count<<endl;
-	cout<<"\nTimeTaken = "<<omp_get_wtime()-start<<"\n";
 	/*	for(int i=0;i<match;i++)
 	{
 	  cout<<count[i]<<",";
 	  }*/
 	cout<<endl;
 }
+cout<<"\nTimeTaken = "<<omp_get_wtime()-start<<"\n";
+
 return 0;
 }
