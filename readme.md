@@ -1,3 +1,4 @@
+
 ******************** Readme ****************
 ************* HOMEWORK 1 *************
 
@@ -9,3 +10,9 @@ The runtimes(s) on both the machines and the Speedup are: -
 
 Average Speedup for the Intel-8 with 8 threads: - 3.5
 Average Speedup for the AMD-64 with 64 threads: - 7 
+
+************* PROJECT ******************
+Parallel String Matching using OpenMP and MPI
+-Using Boyer-Moore-Horspool Algorithm
+Team Mate:- Sindhuri Rayavaram
+*****************************************-
